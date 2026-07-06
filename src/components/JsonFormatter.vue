@@ -1,5 +1,6 @@
 <script setup>
-import { ref, onMounted, onUnmounted, watch, shallowRef } from 'vue'
+import { ref, onMounted, onUnmounted, watch, shallowRef, nextTick } from 'vue'
+import { addItem, getAllItems, deleteItem } from '../utils/db.js'
 import { EditorView, keymap, lineNumbers, highlightActiveLine, highlightActiveLineGutter } from '@codemirror/view'
 import { EditorState } from '@codemirror/state'
 import { json } from '@codemirror/lang-json'
@@ -40,6 +41,7 @@ function onMouseUp() {
 onUnmounted(() => {
   document.removeEventListener('mousemove', onMouseMove)
   document.removeEventListener('mouseup', onMouseUp)
+  document.removeEventListener('click', onClickOutside)
 })
 
 let inputView = shallowRef(null)
@@ -248,6 +250,7 @@ watch(currentTheme, () => {
 onMounted(() => {
   currentTheme.value = localStorage.getItem('jsonFormatterTheme') || 'default'
   initEditors()
+  document.addEventListener('click', onClickOutside)
 })
 
 function updateStats(content) {
@@ -379,6 +382,87 @@ function downloadJson() {
   document.body.removeChild(a)
   URL.revokeObjectURL(url)
 }
+
+// 更多菜单相关
+const showMoreMenu = ref(false)
+const showHistoryPanel = ref(false)
+const historyItems = ref([])
+const moreMenuRef = ref(null)
+
+function toggleMoreMenu() {
+  showMoreMenu.value = !showMoreMenu.value
+  if (!showMoreMenu.value) {
+    showHistoryPanel.value = false
+  }
+}
+
+function closeMoreMenu() {
+  showMoreMenu.value = false
+  showHistoryPanel.value = false
+}
+
+function onClickOutside(e) {
+  if (moreMenuRef.value && !moreMenuRef.value.contains(e.target)) {
+    closeMoreMenu()
+  }
+}
+
+async function saveToHistory() {
+  const content = inputView.value.state.doc.toString().trim()
+  if (!content) {
+    errorMsg.value = '没有可保存的内容'
+    showError.value = true
+    return
+  }
+
+  const name = prompt('请输入保存名称:', `JSON_${new Date().toLocaleString('zh-CN')}`)
+  if (!name) return
+
+  try {
+    await addItem(name, content)
+    closeMoreMenu()
+    errorMsg.value = ''
+    showError.value = false
+    alert('保存成功')
+  } catch (err) {
+    errorMsg.value = '保存失败: ' + err.message
+    showError.value = true
+  }
+}
+
+async function openHistoryPanel() {
+  showHistoryPanel.value = !showHistoryPanel.value
+  if (showHistoryPanel.value) {
+    try {
+      historyItems.value = await getAllItems()
+    } catch (err) {
+      errorMsg.value = '加载历史记录失败: ' + err.message
+      showError.value = true
+    }
+  }
+}
+
+async function loadHistoryItem(item) {
+  inputView.value.dispatch({
+    changes: { from: 0, to: inputView.value.state.doc.length, insert: item.content },
+  })
+  closeMoreMenu()
+  clearTimeout(autoFormatTimer)
+  await nextTick()
+  formatJson()
+}
+
+async function removeHistoryItem(item, event) {
+  event.stopPropagation()
+  if (!confirm(`确定删除「${item.name}」？`)) return
+  try {
+    await deleteItem(item.id)
+    historyItems.value = historyItems.value.filter(i => i.id !== item.id)
+  } catch (err) {
+    errorMsg.value = '删除失败: ' + err.message
+    showError.value = true
+  }
+}
 </script>
 
 <template>
@@ -402,6 +486,35 @@ function downloadJson() {
               <option value="one-dark">One Dark</option>
             </optgroup>
           </select>
+        </div>
+        <div ref="moreMenuRef" class="more-menu-wrapper">
+          <button class="btn more-btn" @click.stop="toggleMoreMenu" title="更多功能">⋮</button>
+          <div v-show="showMoreMenu" class="more-dropdown" :class="{ dark: themeIsDark(currentTheme) }">
+            <div class="dropdown-item" @click="saveToHistory">
+              <span class="dropdown-icon">💾</span>
+              <span>保存当前内容</span>
+            </div>
+            <div class="dropdown-item" @click="openHistoryPanel">
+              <span class="dropdown-icon">📋</span>
+              <span>历史记录</span>
+            </div>
+            <div v-if="showHistoryPanel" class="history-panel" :class="{ dark: themeIsDark(currentTheme) }">
+              <div v-if="historyItems.length === 0" class="history-empty">暂无保存记录</div>
+              <div
+                v-for="item in historyItems"
+                :key="item.id"
+                class="history-item"
+                :class="{ dark: themeIsDark(currentTheme) }"
+                @click="loadHistoryItem(item)"
+              >
+                <div class="history-item-info">
+                  <span class="history-item-name">{{ item.name }}</span>
+                  <span class="history-item-time">{{ new Date(item.createdAt).toLocaleString('zh-CN') }}</span>
+                </div>
+                <button class="history-item-delete" @click="removeHistoryItem(item, $event)" title="删除">✕</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -651,5 +764,140 @@ function downloadJson() {
     margin-right: 0;
     width: 100%;
   }
+}
+
+.more-menu-wrapper {
+  position: relative;
+}
+
+.more-btn {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 4px 10px;
+  line-height: 1;
+  letter-spacing: 1px;
+}
+
+.more-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 180px;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.more-dropdown.dark {
+  background: #2a2a2a;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #333;
+  transition: background-color 0.15s;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+.more-dropdown.dark .dropdown-item {
+  color: #ddd;
+}
+
+.more-dropdown.dark .dropdown-item:hover {
+  background-color: #3a3a3a;
+}
+
+.dropdown-icon {
+  font-size: 14px;
+  width: 18px;
+  text-align: center;
+}
+
+.history-panel {
+  border-top: 1px solid #e0e0e0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.history-panel.dark {
+  border-top-color: #444;
+}
+
+.history-empty {
+  padding: 16px;
+  text-align: center;
+  color: #999;
+  font-size: 13px;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.history-item:hover {
+  background-color: #f5f5f5;
+}
+
+.history-item.dark:hover {
+  background-color: #3a3a3a;
+}
+
+.history-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.history-item-name {
+  font-size: 13px;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.history-item.dark .history-item-name {
+  color: #ddd;
+}
+
+.history-item-time {
+  font-size: 11px;
+  color: #999;
+}
+
+.history-item-delete {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  transition: all 0.15s;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+.history-item-delete:hover {
+  background-color: #ffebee;
+  color: #d32f2f;
 }
 </style>
