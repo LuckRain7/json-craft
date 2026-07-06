@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch, shallowRef } from 'vue'
+import { ref, onMounted, onUnmounted, watch, shallowRef } from 'vue'
 import { EditorView, keymap, lineNumbers, highlightActiveLine, highlightActiveLineGutter } from '@codemirror/view'
 import { EditorState } from '@codemirror/state'
 import { json } from '@codemirror/lang-json'
@@ -11,6 +11,36 @@ import { closeBrackets, closeBracketsKeymap } from '@codemirror/autocomplete'
 
 const inputContainer = ref(null)
 const outputContainer = ref(null)
+const contentContainer = ref(null)
+
+// 拖拽分隔条相关
+const splitRatio = ref(0.5)
+const isDragging = ref(false)
+
+function onDividerMouseDown(e) {
+  e.preventDefault()
+  isDragging.value = true
+  document.addEventListener('mousemove', onMouseMove)
+  document.addEventListener('mouseup', onMouseUp)
+}
+
+function onMouseMove(e) {
+  if (!isDragging.value || !contentContainer.value) return
+  const rect = contentContainer.value.getBoundingClientRect()
+  const ratio = (e.clientX - rect.left) / rect.width
+  splitRatio.value = Math.min(Math.max(ratio, 0.2), 0.8)
+}
+
+function onMouseUp() {
+  isDragging.value = false
+  document.removeEventListener('mousemove', onMouseMove)
+  document.removeEventListener('mouseup', onMouseUp)
+}
+
+onUnmounted(() => {
+  document.removeEventListener('mousemove', onMouseMove)
+  document.removeEventListener('mouseup', onMouseUp)
+})
 
 let inputView = shallowRef(null)
 let outputView = shallowRef(null)
@@ -375,11 +405,14 @@ function downloadJson() {
         </div>
       </div>
     </div>
-    <div class="json-tool-content">
-      <div class="json-editor-container" :class="{ dark: themeIsDark(currentTheme) }">
+    <div ref="contentContainer" class="json-tool-content" :class="{ 'is-dragging': isDragging }">
+      <div class="json-editor-container" :class="{ dark: themeIsDark(currentTheme) }" :style="{ flex: `0 0 calc(${splitRatio * 100}% - 24px)` }">
         <div ref="inputContainer" class="editor-wrapper"></div>
       </div>
-      <div class="json-result-container" :class="{ dark: themeIsDark(currentTheme) }">
+      <div class="split-divider" :class="{ active: isDragging }" @mousedown="onDividerMouseDown">
+        <div class="split-divider-line"></div>
+      </div>
+      <div class="json-result-container" :class="{ dark: themeIsDark(currentTheme) }" :style="{ flex: `0 0 calc(${(1 - splitRatio) * 100}% - 24px)` }">
         <div ref="outputContainer" class="editor-wrapper"></div>
       </div>
     </div>
@@ -475,9 +508,18 @@ function downloadJson() {
   overflow: hidden;
 }
 
+.json-tool-content.is-dragging {
+  cursor: col-resize;
+}
+
+.json-tool-content.is-dragging .json-editor-container,
+.json-tool-content.is-dragging .json-result-container {
+  pointer-events: none;
+  user-select: none;
+}
+
 .json-editor-container,
 .json-result-container {
-  flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -486,6 +528,37 @@ function downloadJson() {
   margin: 10px;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.split-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 8px;
+  cursor: col-resize;
+  flex-shrink: 0;
+  position: relative;
+  transition: background-color 0.2s;
+}
+
+.split-divider:hover,
+.split-divider.active {
+  background-color: rgba(0, 119, 170, 0.08);
+}
+
+.split-divider-line {
+  width: 2px;
+  height: 40px;
+  background-color: #ccc;
+  border-radius: 2px;
+  transition: background-color 0.2s, height 0.2s;
+}
+
+.split-divider:hover .split-divider-line,
+.split-divider.active .split-divider-line {
+  background-color: #07a;
+  height: 60px;
 }
 
 .json-editor-container.dark,
