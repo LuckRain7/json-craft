@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JsonCraft Logo 候选方案</title>
+<style>
+  :root { --brand: #07a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Microsoft YaHei', Arial, sans-serif; background: #f5f5f5; color: #333; padding: 40px 20px; }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 22px; margin-bottom: 4px; }
+  .sub { color: #999; font-size: 14px; margin-bottom: 32px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; }
+  .card-head { padding: 14px 18px; border-bottom: 1px solid #f0f0f0; display: flex; align-items: baseline; gap: 10px; }
+  .card-head .tag { background: var(--brand); color:#fff; font-size: 12px; padding: 2px 8px; border-radius: 10px; }
+  .card-head .name { font-size: 16px; font-weight: 600; }
+  .card-head .desc { color:#888; font-size: 12px; margin-left:auto; }
+  .show { padding: 36px 18px; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+  .row { display: flex; align-items: center; gap: 22px; }
+  .big { background: #fff; border-radius: 12px; }
+  .big.dark { background: #1a1a2e; }
+  .big .label, .fav .label { font-size: 11px; color:#aaa; text-align:center; margin-top:6px; }
+  .fav { background:#fff; border:1px solid #eee; padding:6px; border-radius:6px; }
+  .fav.dark { background:#1a1a2e; border-color:#333; }
+  .fav-row { display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .pick-btn { margin: 16px 18px 18px; align-self:center; background:var(--brand); color:#fff; border:none; padding:10px 28px; border-radius:6px; font-size:14px; cursor:pointer; font-family:inherit; }
+  .pick-btn:hover { opacity:.9; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>JsonCraft · Logo 候选方案</h1>
+  <div class="sub">品牌主色 <code>#07a</code> · 矢量 SVG · 下方每个方案均展示「浅色大图 / 暗色大图 / favicon 小尺寸」三种形态</div>
+  <div class="grid">
+
+    <!-- 方案 1：花括号图标 -->
+    <div class="card">
+      <div class="card-head"><span class="tag">方案 1</span><span class="name">花括号图标</span><span class="desc">{ } + J</span></div>
+      <div class="show">
+        <div class="big" style="padding:24px;">
+          <svg width="96" height="96" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+            <rect width="96" height="96" rx="20" fill="#07a"/>
+            <text x="48" y="64" font-family="Consolas,monospace" font-size="52" font-weight="700" fill="#fff" text-anchor="middle">{J}</text>
+          </svg>
+        </div>
+        <div class="row">
+          <div class="big dark" style="padding:14px;">
+            <svg width="56" height="56" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+              <rect width="96" height="96" rx="20" fill="#07a"/>
+              <text x="48" y="64" font-family="Consolas,monospace" font-size="52" font-weight="700" fill="#fff" text-anchor="middle">{J}</text>
+            </svg>
+          </div>
+          <div class="fav-row"><div class="fav">
+            <svg width="32" height="32" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+              <rect width="96" height="96" rx="20" fill="#07a"/>
+              <text x="48" y="64" font-family="Consolas,monospace" font-size="52" font-weight="700" fill="#fff" text-anchor="middle">{J}</text>
+            </svg>
+          </div><div class="label">16/32px</div></div>
+        </div>
+      </div>
+      <button class="pick-btn" onclick="alert('你选择了：方案 1 花括号图标')">选这个</button>
+    </div>
+
+    <!-- 方案 2：文字标 -->
+    <div class="card">
+      <div class="card-head"><span class="tag">方案 2</span><span class="name">文字标</span><span class="desc">{JsonCraft}</span></div>
+      <div class="show">
+        <div class="big" style="padding:28px 18px;">
+          <svg width="220" height="48" viewBox="0 0 220 48" xmlns="http://www.w3.org/2000/svg">
+            <text x="110" y="33" font-family="Consolas,monospace" font-size="34" font-weight="700" text-anchor="middle">
+              <tspan fill="#07a">{</tspan><tspan fill="#333">Json</tspan><tspan fill="#07a">Craft</tspan><tspan fill="#07a">}</tspan>
+            </text>
+          </svg>
+        </div>
+        <div class="row">
+          <div class="big dark" style="padding:14px 10px;">
+            <svg width="150" height="34" viewBox="0 0 220 48" xmlns="http://www.w3.org/2000/svg">
+              <text x="110" y="33" font-family="Consolas,monospace" font-size="34" font-weight="700" text-anchor="middle">
+                <tspan fill="#2bd">{</tspan><tspan fill="#eee">Json</tspan><tspan fill="#2bd">Craft</tspan><tspan fill="#2bd">}</tspan>
+              </text>
+            </svg>
+          </div>
+          <div class="fav-row"><div class="fav">
+            <svg width="32" height="32" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+              <rect width="96" height="96" rx="20" fill="#07a"/>
+              <text x="48" y="64" font-family="Consolas,monospace" font-size="44" font-weight="700" fill="#fff" text-anchor="middle">JC</text>
+            </svg>
+          </div><div class="label">favicon</div></div>
+        </div>
+      </div>
+      <button class="pick-btn" onclick="alert('你选择了：方案 2 文字标')">选这个</button>
+    </div>
+
+    <!-- 方案 3：字母 J 几何 monogram -->
+    <div class="card">
+      <div class="card-head"><span class="tag">方案 3</span><span class="name">几何 J 标</span><span class="desc">极简 monogram</span></div>
+      <div class="show">
+        <div class="big" style="padding:24px;">
+          <svg width="96" height="96" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+            <rect width="96" height="96" rx="20" fill="#07a"/>
+            <path d="M38 26 L58 26 L58 56 Q58 70 44 70 Q34 70 30 62 L40 56 Q42 60 44 60 Q48 60 48 56 L48 26 Z" fill="#fff"/>
+          </svg>
+        </div>
+        <div class="row">
+          <div class="big dark" style="padding:14px;">
+            <svg width="56" height="56" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+              <rect width="96" height="96" rx="20" fill="#07a"/>
+              <path d="M38 26 L58 26 L58 56 Q58 70 44 70 Q34 70 30 62 L40 56 Q42 60 44 60 Q48 60 48 56 L48 26 Z" fill="#fff"/>
+            </svg>
+          </div>
+          <div class="fav-row"><div class="fav">
+            <svg width="32" height="32" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+              <rect width="96" height="96" rx="20" fill="#07a"/>
+              <path d="M38 26 L58 26 L58 56 Q58 70 44 70 Q34 70 30 62 L40 56 Q42 60 44 60 Q48 60 48 56 L48 26 Z" fill="#fff"/>
+            </svg>
+          </div><div class="label">16/32px</div></div>
+        </div>
+      </div>
+      <button class="pick-btn" onclick="alert('你选择了：方案 3 几何 J 标')">选这个</button>
+    </div>
+
+    <!-- 方案 4：嵌套层级图标 -->
+    <div class="card">
+      <div class="card-head"><span class="tag">方案 4</span><span class="name">嵌套层级</span><span class="desc">呼应「格式化」</span></div>
+      <div class="show">
+        <div class="big" style="padding:24px;">
+          <svg width="96" height="96" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+            <rect width="96" height="96" rx="20" fill="#07a"/>
+            <g stroke="#fff" stroke-width="3" stroke-linecap="round">
+              <line x1="26" y1="30" x2="70" y2="30"/>
+              <line x1="38" y1="44" x2="70" y2="44"/>
+              <line x1="38" y1="58" x2="58" y2="58"/>
+              <line x1="50" y1="72" x2="70" y2="72"/>
+            </g>
+            <g fill="#fff">
+              <rect x="22" y="26" width="4" height="8" rx="1"/>
+              <rect x="34" y="40" width="4" height="8" rx="1"/>
+              <rect x="34" y="54" width="4" height="8" rx="1"/>
+              <rect x="46" y="68" width="4" height="8" rx="1"/>
+            </g>
+          </svg>
+        </div>
+        <div class="row">
+          <div class="big dark" style="padding:14px;">
+            <svg width="56" height="56" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+              <rect width="96" height="96" rx="20" fill="#07a"/>
+              <g stroke="#fff" stroke-width="3" stroke-linecap="round">
+                <line x1="26" y1="30" x2="70" y2="30"/>
+                <line x1="38" y1="44" x2="70" y2="44"/>
+                <line x1="38" y1="58" x2="58" y2="58"/>
+                <line x1="50" y1="72" x2="70" y2="72"/>
+              </g>
+              <g fill="#fff">
+                <rect x="22" y="26" width="4" height="8" rx="1"/>
+                <rect x="34" y="40" width="4" height="8" rx="1"/>
+                <rect x="34" y="54" width="4" height="8" rx="1"/>
+                <rect x="46" y="68" width="4" height="8" rx="1"/>
+              </g>
+            </svg>
+          </div>
+          <div class="fav-row"><div class="fav">
+            <svg width="32" height="32" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+              <rect width="96" height="96" rx="20" fill="#07a"/>
+              <g stroke="#fff" stroke-width="4" stroke-linecap="round">
+                <line x1="26" y1="30" x2="70" y2="30"/>
+                <line x1="38" y1="44" x2="70" y2="44"/>
+                <line x1="38" y1="58" x2="58" y2="58"/>
+                <line x1="50" y1="72" x2="70" y2="72"/>
+              </g>
+              <g fill="#fff">
+                <rect x="22" y="26" width="5" height="8" rx="1"/>
+                <rect x="34" y="40" width="5" height="8" rx="1"/>
+                <rect x="34" y="54" width="5" height="8" rx="1"/>
+                <rect x="46" y="68" width="5" height="8" rx="1"/>
+              </g>
+            </svg>
+          </div><div class="label">16/32px</div></div>
+        </div>
+      </div>
+      <button class="pick-btn" onclick="alert('你选择了：方案 4 嵌套层级')">选这个</button>
+    </div>
+
+  </div>
+  <div style="margin-top:24px;color:#999;font-size:13px;text-align:center;">
+    在浏览器打开本页 · 选定后告诉我方案编号，我会输出独立 SVG 文件并接入 favicon / header
+  </div>
+</div>
+</body>
+</html>
