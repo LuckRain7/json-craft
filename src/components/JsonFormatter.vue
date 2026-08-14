@@ -468,7 +468,14 @@ async function removeHistoryItem(item, event) {
 <template>
   <div class="json-tool-container" :class="{ dark: themeIsDark(currentTheme) }">
     <div class="json-tool-header">
-      <h1>JSON格式化工具</h1>
+      <h1 class="brand">
+        <svg class="brand-logo" viewBox="0 0 240 48" role="img" aria-label="JsonCraft">
+          <text x="120" y="34" font-family="Consolas, 'SF Mono', Monaco, 'Courier New', monospace" font-size="30" font-weight="700" text-anchor="middle" letter-spacing="0.5">
+            <tspan fill="rgba(255,255,255,0.55)">{</tspan><tspan fill="#fff">Json</tspan><tspan fill="rgba(255,255,255,0.85)">Craft</tspan><tspan fill="rgba(255,255,255,0.55)">}</tspan>
+          </text>
+        </svg>
+        <span class="brand-sub">JSON 格式化工具</span>
+      </h1>
       <div class="json-tool-buttons">
         <button class="btn" @click="formatJson">格式化</button>
         <button class="btn" @click="compressJson">压缩</button>
@@ -560,6 +567,26 @@ async function removeHistoryItem(item, event) {
 .json-tool-header h1 {
   font-size: 16px;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-logo {
+  height: 22px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.brand-sub {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.65);
+  white-space: nowrap;
+}
+
+.json-tool-container.dark .brand-sub {
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .json-tool-buttons {

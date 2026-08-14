@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="48" viewBox="0 0 240 48" role="img" aria-label="JsonCraft">
+  <text x="120" y="34" font-family="Consolas, 'SF Mono', Monaco, 'Courier New', monospace" font-size="30" font-weight="700" text-anchor="middle" letter-spacing="0.5">
+    <tspan fill="#07a">{</tspan><tspan fill="#333">Json</tspan><tspan fill="#07a">Craft</tspan><tspan fill="#07a">}</tspan>
+  </text>
+</svg>
