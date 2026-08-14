@@ -1,57 +1,61 @@
-# JsonCraft - JSON 格式化工具
+# JsonCraft - JSON Formatter
 
-一款轻量、美观的在线 JSON 格式化工具，基于 Vue 3 + CodeMirror 6 构建，支持实时格式化、压缩、校验与多主题切换。
+[English](./README.md) | [简体中文](./README.zh-CN.md)
 
-## 功能特性
+A lightweight, polished online JSON formatter built with Vue 3 + CodeMirror 6, supporting real-time formatting, minification, validation, and multi-theme switching.
 
-- **JSON 格式化** — 一键美化 JSON，2 空格缩进，结构清晰
-- **JSON 压缩** — 去除所有空白字符，生成最小化 JSON
-- **实时校验** — 输入即校验，错误信息精准定位
-- **多主题切换** — 内置 Default（浅色）、MDN-like（浅色）、One Dark（深色）三套主题，偏好自动保存
-- **复制到剪贴板** — 一键复制格式化结果
-- **下载为文件** — 将格式化后的 JSON 导出为 `.json` 文件
-- **统计信息** — 实时显示 JSON 字符数与处理耗时
-- **响应式布局** — 适配桌面端与移动端
+## Features
 
-## 技术栈
+- **JSON Formatting** — Beautify JSON in one click, 2-space indentation, clear structure
+- **JSON Minification** — Strip all whitespace to produce minified JSON
+- **Real-time Validation** — Validate as you type, with precise error positioning
+- **Multi-theme** — Built-in Default (light), MDN-like (light), and One Dark (dark) themes; preference auto-saved
+- **Copy to Clipboard** — One-click copy of the formatted result
+- **Download as File** — Export the formatted JSON as a `.json` file
+- **Live Stats** — Real-time character count and processing time
+- **Responsive Layout** — Adapts to both desktop and mobile
+- **Local History** — Save and reload JSON snippets via IndexedDB
 
-| 类别 | 技术 |
-|------|------|
-| 前端框架 | Vue 3.5 (`<script setup>`) |
-| 构建工具 | Vite 8 |
-| 代码编辑器 | CodeMirror 6 + vue-codemirror |
-| 样式 | CSS 3（Scoped Styles） |
+## Tech Stack
 
-## 快速开始
+| Category | Technology |
+|----------|------------|
+| Framework | Vue 3.5 (`<script setup>`) |
+| Build Tool | Vite 8 |
+| Code Editor | CodeMirror 6 + vue-codemirror |
+| Styling | CSS 3 (Scoped Styles) |
+| Local Storage | IndexedDB (native API) |
+
+## Getting Started
 
 ```bash
-# 安装依赖
+# Install dependencies
 npm install
 
-# 启动开发服务器
+# Start the dev server
 npm run dev
 
-# 构建生产版本
+# Build for production
 npm run build
 
-# 预览生产构建
+# Preview the production build
 npm run preview
 ```
 
-## 项目结构
+## Project Structure
 
 ```
 src/
-├── main.js                  # 应用入口
-├── App.vue                  # 根组件
-├── style.css                # 全局样式
+├── main.js                  # App entry
+├── App.vue                  # Root component
+├── style.css                # Global styles
 └── components/
-    └── JsonFormatter.vue    # 核心格式化组件
+    └── JsonFormatter.vue    # Core formatter component
 ```
 
-## 预览
+## Preview
 
-双栏布局：左侧输入原始 JSON，右侧实时展示格式化结果。顶部工具栏提供格式化、压缩、清空、复制、下载等操作，底部显示错误提示与统计信息。
+Dual-pane layout: raw JSON on the left, formatted result on the right in real time. The top toolbar provides formatting, minification, clearing, copying, and downloading, while the bottom shows error hints and stats.
 
 ## License
 
